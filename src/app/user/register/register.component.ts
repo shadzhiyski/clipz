@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-register',
@@ -40,7 +41,9 @@ export class RegisterComponent {
   alertColor?: string
   inSubmission = false
 
-  constructor(private auth: AngularFireAuth) {
+  constructor(
+      private auth: AngularFireAuth,
+      private db: AngularFirestore) {
     this.setInitialAlertValues();
   }
 
@@ -58,7 +61,13 @@ export class RegisterComponent {
         email as string, password as string
       )
 
-      console.log(userCred)
+      await this.db.collection('users').add({
+        name: this.registerForm.controls.name.value,
+        email: this.registerForm.controls.email.value,
+        age: this.registerForm.controls.age.value,
+        phoneNumber: this.registerForm.controls.phoneNumber.value,
+      })
+
     } catch (e) {
       this.alertMsg = 'An unexpected error occurred. Please try again later'
       this.alertColor = 'red'
