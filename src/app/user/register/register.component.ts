@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AuthService } from 'src/app/services/auth.service';
+import IUser from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -10,26 +10,26 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class RegisterComponent {
   registerForm = new FormGroup({
-    name: new FormControl('', [
+    name: new FormControl<string>('', [
       Validators.required,
       Validators.minLength(3)
     ]),
-    email: new FormControl('', [
+    email: new FormControl<string>('', [
       Validators.required,
       Validators.email
     ]),
-    age: new FormControl('',[
+    age: new FormControl<number | null>(null,[
       Validators.required,
       Validators.min(18)
     ]),
-    password: new FormControl('', [
+    password: new FormControl<string>('', [
       Validators.required,
       Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)
     ]),
-    confirm_password: new FormControl('',[
+    confirm_password: new FormControl<string>('',[
       Validators.required
     ]),
-    phoneNumber: new FormControl('', [
+    phoneNumber: new FormControl<string>('', [
       Validators.required,
       Validators.minLength(13),
       Validators.maxLength(13)
@@ -41,9 +41,7 @@ export class RegisterComponent {
   alertColor?: string
   inSubmission = false
 
-  constructor(
-      private auth: AngularFireAuth,
-      private db: AngularFirestore) {
+  constructor(private auth: AuthService) {
     this.setInitialAlertValues();
   }
 
@@ -53,20 +51,10 @@ export class RegisterComponent {
     this.alertColor = 'blue'
     this.inSubmission = true
 
-    const { email, password} = this.registerForm.value
-
+    // const { email, password} = this.registerForm.value
 
     try {
-      const userCred = await this.auth.createUserWithEmailAndPassword(
-        email as string, password as string
-      )
-
-      await this.db.collection('users').add({
-        name: this.registerForm.controls.name.value,
-        email: this.registerForm.controls.email.value,
-        age: this.registerForm.controls.age.value,
-        phoneNumber: this.registerForm.controls.phoneNumber.value,
-      })
+      await this.auth.createUser(this.registerForm.value as IUser)
 
     } catch (e) {
       this.alertMsg = 'An unexpected error occurred. Please try again later'
