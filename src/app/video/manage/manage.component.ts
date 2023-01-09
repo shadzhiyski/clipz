@@ -19,7 +19,6 @@ export class ManageComponent implements OnInit {
       .pipe(map((params: Params) => params.params))
       .subscribe((params: Params) => {
         this.videoOrder = params.sort
-        console.log(this.videoOrder, params.sort)
       })
   }
 
