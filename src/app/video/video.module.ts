@@ -7,13 +7,15 @@ import { UploadComponent } from './upload/upload.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditComponent } from './edit/edit.component';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 
 @NgModule({
   declarations: [
     ManageComponent,
     UploadComponent,
-    EditComponent
+    EditComponent,
+    SafeUrlPipe
   ],
   imports: [
     CommonModule,
