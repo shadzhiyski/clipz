@@ -27,7 +27,7 @@ To run this project you need to have installed the following tools:
 > [!IMPORTANT]
 > You need to have created and configured a project in [Firebase](https://firebase.google.com/). There is information in the course how to do that for the main project needs.
 
-Add new confiuration in `src/environments/environments.ts` with the following example format:
+Add configuration `src/environments/environments.ts` in the following example format:
 
 ```TS
 export const environment = {
