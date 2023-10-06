@@ -22,6 +22,26 @@ This example project is made following the steps and using the learning material
 To run this project you need to have installed the following tools:
 * [Node.js](https://nodejs.org/en/) (version 18.12.1 used for this project)
 
+## Firebase configuration
+
+> [!IMPORTANT]
+> You need to have created and configured a project in [Firebase](https://firebase.google.com/). There is information in the course how to do that for the main project needs.
+
+Add new confiuration in `src/environments/environments.ts` with the following example format:
+
+```TS
+export const environment = {
+    production: false,
+    firebase: {
+        apiKey: "<api-key>",
+        authDomain: "<auth-domain>",
+        projectId: "<project-id>",
+        storageBucket: "<storage-bucket>",
+        appId: "<app-id>"
+    }
+}
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
